@@ -52,7 +52,7 @@
                                 <select name="id_departamento" data-placeholder="Departamento" class="standardSelect " tabindex="1">
                                 <option value="" disabled selected>Departamento</option>
                                     <?php foreach ($lsita_departamento as $row) : ?>
-                                        <option value="<?php echo $row['id_departamento'] ?>"><?php echo $row['id_departamento'] ?></option>
+                                        <option value="<?php echo $row['id_departamento'] ?>"><?php echo $row['nome'] ?></option>
                                     <?php endforeach ?>
                                 </select>
                             </div>           

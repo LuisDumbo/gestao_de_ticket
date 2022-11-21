@@ -88,6 +88,10 @@ $lsita_departamento = DepartamentoController::listar();
                         <a href="historico_tarefas.php"> <i class="menu-icon fa fa-file-text"></i>Historico</a>
                     </li>
 
+                    <li>
+                        <a href="lista_de_tarefas.php"> <i class="menu-icon fa fa-file-text"></i>Lista de Tarefas</a>
+                    </li>
+
                 </ul>
             </div>
         </nav>
