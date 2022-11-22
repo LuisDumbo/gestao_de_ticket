@@ -79,7 +79,7 @@ $lsita_departamento = DepartamentoController::listar();
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-building-o"></i>Departamentos</a>
                         <ul class="sub-menu children dropdown-menu">
                             <?php foreach ($lsita_departamento as $row) : ?>
-                                  <li><i class="menu-icon fa fa-circle"></i><a href="list.php?dep=<?php echo $row['nome'] ?>"><?php echo $row['nome'] ?></a></li>
+                                  <li><i class="menu-icon fa fa-circle"></i><a href="list.php?dep=<?php echo $row['nome'] ?>&chave=<?php echo base64_encode($row['id_departamento']) ?>"><?php echo $row['nome'] ?></a></li>
                             <?php endforeach ?>
                         </ul>
                     </li>

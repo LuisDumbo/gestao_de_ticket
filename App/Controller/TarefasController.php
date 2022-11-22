@@ -47,7 +47,14 @@ class TarefasController
         }
     }
 
-    public static function listar(){
+    public static function listar()
+    {
         return tarefa::listar_tarefas();
+    }
+
+    public static function listar_por_departamento($id_departamento)
+    {
+
+        return tarefa::listar_tarefas_por_departamento($id_departamento);
     }
 }
