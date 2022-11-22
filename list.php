@@ -2,6 +2,8 @@
 session_start();
 if (!isset($_SESSION['nome'])) {
     header('Location: /ticket/login.php');
+}elseif(!isset($_GET['dep'])){
+    header('Location: /ticket/index.php');
 }
 require 'vendor/autoload.php';
 $tittle = "Lista Departamento";
@@ -77,18 +79,9 @@ require 'component/navBar.php';
                                     <div class="input-group">
 
                                         <select data-placeholder="Escolher a Tarefa" class="standardSelect " tabindex="1">
-                                            <option value=""></option>
-                                            <option value="United States">United States</option>
-                                            <option value="United Kingdom">United Kingdom</option>
-                                            <option value="Afghanistan">Afghanistan</option>
-                                            <option value="Aland Islands">Aland Islands</option>
-                                            <option value="Albania">Albania</option>
-                                            <option value="Algeria">Algeria</option>
-                                            <option value="American Samoa">American Samoa</option>
-                                            <option value="Andorra">Andorra</option>
-                                            <option value="Angola">Angola</option>
-                                            <option value="Anguilla">Anguilla</option>
-                                            <option value="Antarctica">Antarctica</option>
+                                            <?php foreach ($listar_tarefa_por_departamento as $key) : ?>
+                                                <option value="<?php echo $key['id_ordem']; ?>"><?php echo $key['nome_ordem']; ?></option>
+                                            <?php endforeach ?>
                                         </select>
 
                                     </div>
@@ -129,18 +122,9 @@ require 'component/navBar.php';
                                     <div class="input-group">
 
                                         <select data-placeholder="Escolher a Tarefa" class="standardSelect " tabindex="1">
-                                            <option value=""></option>
-                                            <option value="United States">United States</option>
-                                            <option value="United Kingdom">United Kingdom</option>
-                                            <option value="Afghanistan">Afghanistan</option>
-                                            <option value="Aland Islands">Aland Islands</option>
-                                            <option value="Albania">Albania</option>
-                                            <option value="Algeria">Algeria</option>
-                                            <option value="American Samoa">American Samoa</option>
-                                            <option value="Andorra">Andorra</option>
-                                            <option value="Angola">Angola</option>
-                                            <option value="Anguilla">Anguilla</option>
-                                            <option value="Antarctica">Antarctica</option>
+                                            <?php foreach ($listar_tarefa_por_departamento as $key) : ?>
+                                                <option value="<?php echo $key['id_ordem']; ?>"><?php echo $key['nome_ordem']; ?></option>
+                                            <?php endforeach ?>
                                         </select>
 
                                     </div>
