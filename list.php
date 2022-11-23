@@ -2,7 +2,7 @@
 session_start();
 if (!isset($_SESSION['nome'])) {
     header('Location: /ticket/login.php');
-}elseif(!isset($_GET['dep'])){
+} elseif (!isset($_GET['dep'])) {
     header('Location: /ticket/index.php');
 }
 require 'vendor/autoload.php';
@@ -13,6 +13,8 @@ $local = "Lista Departamento" . $_GET['dep'] ? $_GET['dep']  : "";
 use App\Controller\ColaboradorController;
 use App\Controller\DepartamentoController;
 use App\Controller\TarefasController;
+
+$adicionar_tarefa = ColaboradorController::adicionar_tarefa();
 
 $listar_tarefa_por_departamento = TarefasController::listar_por_departamento(base64_decode($_GET['chave']));
 $lista_de_funcionario = ColaboradorController::listar();
@@ -28,10 +30,16 @@ require 'component/navBar.php';
     <div class="animated fadeIn">
         <div class="row h-25  ">
             <div class="col-lg ">
+                <?php if(!is_null($adicionar_tarefa)): ?>
+                <div class="alert  alert-danger alert-dismissible fade show  animate__animated animate__fadeInDown " role="alert">
+                    <strong>Porblema</strong> <?php var_dump($adicionar_tarefa); ?>
+                </div>
+                <?php endif ?>
                 <div class="card">
                     <div class="card-header">
                         <strong class="card-title">Tarefas</strong>
                     </div>
+
                     <div class="card-body ">
                         <table id="table_id" class="table table-striped table-bordered" style="width:100%">
                             <thead>
@@ -40,6 +48,7 @@ require 'component/navBar.php';
                                     <th>Estado</th>
                                     <th>Descrição</th>
                                     <th>Duração</th>
+                                    <th>Concluir</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -48,7 +57,10 @@ require 'component/navBar.php';
                                         <td><?php echo $key['nome_ordem']; ?></td>
                                         <td><?php echo $key['estado']; ?></td>
                                         <td><?php echo $key['descricao']; ?></td>
-                                        <td><?php echo $key['duracao']; ?></td>
+                                        <td><?php echo $key['duracao']; ?>h</td>
+                                        <td>
+                                            <form action="listar_usuarios.php" method="post"> <input type="hidden" value="<?php //echo $row['id_colaboradore']?>" name="id_colaborador"> <button name="apagar" type="submit" class="btn btn-danger">Concluir</button></form>
+                                        </td>
                                     </tr>
                                 <?php endforeach ?>
 
@@ -58,14 +70,15 @@ require 'component/navBar.php';
                 </div>
 
                 <div class="col-lg-6">
+
                     <div class="card">
                         <div class="card-header bg-primary">Passar Tarefas Para Funcionarios</div>
                         <div class="card-body card-block">
-                            <form action="" method="post" class="">
+                            <form action="list.php?dep=<?php echo $_GET['dep'] ?>&chave=<?php echo $_GET['chave'] ?>" method="post" class="">
                                 <div class="form-group">
                                     <div class="input-group">
 
-                                        <select data-placeholder="Escolher Funcionarios" multiple class="standardSelect">
+                                        <select data-placeholder="Escolher Funcionarios" name="funcionarios[]" multiple class="standardSelect">
                                             <option value=""></option>
                                             <?php foreach ($lista_de_funcionario as $row_funcionario) : ?>
                                                 <option value="<?php echo $row_funcionario['id_colaboradore']; ?>"><?php echo $row_funcionario['nome_colaborador']; ?></option>
@@ -78,9 +91,9 @@ require 'component/navBar.php';
                                 <div class="form-group">
                                     <div class="input-group">
 
-                                        <select data-placeholder="Escolher a Tarefa" class="standardSelect " tabindex="1">
+                                        <select data-placeholder="Escolher a Tarefa" name="tarefas" class="standardSelect " tabindex="1">
                                             <?php foreach ($listar_tarefa_por_departamento as $key) : ?>
-                                                <option value="<?php echo $key['id_ordem']; ?>"><?php echo $key['nome_ordem']; ?></option>
+                                                <option value="<?php echo $key['id_ordem_departamento']; ?>"><?php echo $key['nome_ordem']; ?></option>
                                             <?php endforeach ?>
                                         </select>
 
@@ -94,7 +107,7 @@ require 'component/navBar.php';
                                     </div>
                                 </div>
 
-                                <div class="form-actions  form-group"><button type="submit" class="btn btn-success btn-sm">Submit</button></div>
+                                <div class="form-actions  form-group"><button type="submit" name="adicionar_tarefa" class="btn btn-success btn-sm">Submit</button></div>
                             </form>
                         </div>
                     </div>
@@ -144,7 +157,6 @@ require 'component/navBar.php';
 
 </div>
 
-<?php require 'component/modal.php'; ?>
 
 <script src="assets/vendors/jquery/dist/jquery.min.js"></script>
 <script src="assets/vendors/popper.js/dist/umd/popper.min.js"></script>

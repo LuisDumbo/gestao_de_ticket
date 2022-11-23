@@ -81,7 +81,7 @@ class tarefa
         }
     }
 
-    public static function listar_tarefas_por_departamento($id_departamento, )
+    public static function listar_tarefas_por_departamento($id_departamento)
     {
 
         try {
@@ -89,6 +89,35 @@ class tarefa
             $user = $_SESSION['user'];
             $conn = conection::connect();
             $ordem = $conn->query("SELECT * FROM `ordem_por_departamento` LEFT join departamento on (departamento.id_departamento = ordem_por_departamento.id_departamento) LEFT JOIN ordem on (ordem.id_ordem = ordem_por_departamento.id_ordem) WHERE ordem_por_departamento.id_departamento = $id_departamento and ordem_por_departamento.estado = 'Em Andamento' and ordem_por_departamento.id_user = $user;");
+            $retun =  $ordem->fetchAll(PDO::FETCH_ASSOC);
+
+
+
+            return  $retun;
+        } catch (PDOException $exception) {
+            return $exception;
+        }
+    }
+
+    public static function atualizar_tempo_tarefa($id_tarefa, $val)
+    {
+        try {
+            $conn = conection::connect();
+
+
+            $colaborador = $conn->prepare("UPDATE ordem_por_departamento set duracao = $val WHERE id_ordem_departamento = $id_tarefa");
+            return $colaborador->execute();
+            //return  $retun;
+        } catch (PDOException $exception) {
+            return $exception;
+        }
+    }
+
+    public static function duracao_tarefa($id_departamento)
+    {
+        try {
+            $conn = conection::connect();
+            $ordem = $conn->query("SELECT * FROM `ordem_por_departamento` WHERE  id_ordem_departamento = $id_departamento");
             $retun =  $ordem->fetchAll(PDO::FETCH_ASSOC);
 
 

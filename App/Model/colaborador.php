@@ -55,7 +55,7 @@ class colaborador
         }
     }
 
-    public static function atualizar_colaborador($nume_colaborador, $cargo , $id_departamento, $id_colaborador)
+    public static function atualizar_colaborador($nume_colaborador, $cargo, $id_departamento, $id_colaborador)
     {
         try {
             $conn = conection::connect();
@@ -64,6 +64,37 @@ class colaborador
             $colaborador = $conn->prepare("UPDATE colaboradores set nome_colaborador= '$nume_colaborador', cargo = '$cargo' , id_departamento = $id_departamento   WHERE id_colaboradore= $id_colaborador ");
             return $colaborador->execute();
             //return  $retun;
+        } catch (PDOException $exception) {
+            return $exception;
+        }
+    }
+
+    public static function atualizar_horas_gastas($val, $id_colaborador)
+    {
+        try {
+            $conn = conection::connect();
+
+
+            $colaborador = $conn->prepare("UPDATE colaboradores set horas_a_gastar = $val  WHERE id_colaboradore= $id_colaborador ");
+            return $colaborador->execute();
+            //return  $retun;
+        } catch (PDOException $exception) {
+            return $exception;
+        }
+    }
+
+    public static function horas_gastas($id_colaborador)
+    {
+
+        try {
+
+            $conn = conection::connect();
+            $colaborador = $conn->query("SELECT * FROM `colaboradores` WHERE  id_colaboradore = $id_colaborador ");
+            $retun =  $colaborador->fetchAll(PDO::FETCH_ASSOC);
+
+
+
+            return  $retun;
         } catch (PDOException $exception) {
             return $exception;
         }
